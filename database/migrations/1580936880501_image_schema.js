@@ -7,10 +7,10 @@ class ImageSchema extends Schema {
   up () {
     this.create('images', (table) => {
       table.bigIncrements()
-      table.bigInteger('user_id').unsigned().references('id').inTable('users')
       table.string('type').defaultTo('')
-      table.string('path').defaultTo('')
-      table.string('name')
+      table.string('parent_type').notNullable()
+      table.bigInteger('parent_id').unsigned().notNullable()
+      table.string('name').notNullable()
       table.timestamps()
     })
   }

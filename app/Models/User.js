@@ -2,6 +2,7 @@
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
+const Database = use('Database')
 
 /** @type {import('@adonisjs/framework/src/Hash')} */
 const Hash = use('Hash')
@@ -32,8 +33,8 @@ class User extends Model {
    * Hide fields
    * @returns {string[]}
    */
-  static get hidden () {
-    return ['password', 'email_verified_at']
+  static get visible () {
+    return ['id', 'name', 'gender', 'picture']
   }
   /**
    * A relationship on tokens is required for auth to
@@ -49,6 +50,10 @@ class User extends Model {
     return this.hasMany('App/Models/Token')
   }
 
+  posts () {
+    return this.hasMany('App/Models/Post')
+  }
+
   codes(){
     return this.hasMany('App/Models/AuthCode')
   }
@@ -62,7 +67,18 @@ class User extends Model {
       .where('type', 'profile')
   }
 
-  getGender(gender){
+  connections () {
+    return this.belongsToMany('App/Models/User', 'first_user', 'second_user')
+      .pivotTable('connections')
+  }
+
+  async connect(user){
+    const table = Database.table('connections')
+    table.insert({first_user: this.id, second_user: user.id})
+    table.insert({second_user: this.id, first_user: user.id})
+  }
+
+  getGender({gender}){
     return gender === 0 ? 'male' : 'female'
   }
 

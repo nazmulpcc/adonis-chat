@@ -7,12 +7,12 @@ class PostSchema extends Schema {
   up () {
     this.create('posts', (table) => {
       table.bigIncrements()
-      table.bigInteger('user_id').unsigned().references('id').inTable('users')
-      table.text('body')
-      table.decimal('lat')
-      table.decimal('lng')
-      table.string('activity', 254)
-      table.integer('people').unsigned()
+      table.bigInteger('user_id').notNullable().unsigned().references('id').inTable('users')
+      table.text('body').notNullable()
+      table.decimal('lat').notNullable()
+      table.decimal('lng').notNullable()
+      table.string('activity', 254).notNullable()
+      table.integer('people').unsigned().notNullable()
       table.boolean('plus').defaultTo(false)
       table.timestamps()
     })
