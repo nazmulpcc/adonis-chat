@@ -59,7 +59,11 @@ class PostController {
     data.user_id = auth.user.id
     const post = await Post.create(data)
     Image.upload(request.file('image'), post)
-    return post
+    return {
+      success: true,
+      message: 'Post Created',
+      data: post
+    }
   }
 
   /**

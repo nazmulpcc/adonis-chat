@@ -36,8 +36,8 @@ class Image extends Model {
     });
   }
 
-  getUrl({name}){
-    return `${Config.get('app.url')}/uploads/${name}`
+  getUrl({name, parent_type}){
+    return `${Config.get('app.url')}/uploads/${parent_type}/${name}`
   }
 }
 

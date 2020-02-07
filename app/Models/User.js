@@ -67,17 +67,6 @@ class User extends Model {
       .where('type', 'profile')
   }
 
-  connections () {
-    return this.belongsToMany('App/Models/User', 'first_user', 'second_user')
-      .pivotTable('connections')
-  }
-
-  async connect(user){
-    const table = Database.table('connections')
-    table.insert({first_user: this.id, second_user: user.id})
-    table.insert({second_user: this.id, first_user: user.id})
-  }
-
   getGender({gender}){
     return gender === 0 ? 'male' : 'female'
   }

@@ -14,7 +14,7 @@ Route.group(() => {
   Route.post('/verify', 'Auth/VerificationController.verify').as('verify')
   Route.post('/verify/request', 'Auth/VerificationController.request').as('verify.request')
 }).prefix('/auth').middleware('guest')
-Route.post('/auth/check', 'AuthController.check').middleware('auth')
+Route.post('/auth/check', 'Auth/AuthController.check').middleware('auth')
 
 Route.get('/posts/nearby', 'PostController.nearby').middleware('auth')
 Route.resource('posts', 'PostController')
@@ -22,3 +22,9 @@ Route.resource('posts', 'PostController')
   .validator(new Map([
     [['posts.store'], ['StorePost']]
   ]))
+
+// connection routes
+Route.group(() => {
+  Route.post('/connect', 'ConnectionController.connect')
+  Route.post('/disconnect', 'ConnectionController.disconnect')
+}).prefix('/connections').middleware('auth')
