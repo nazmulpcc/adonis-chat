@@ -28,3 +28,10 @@ Route.group(() => {
   Route.post('/connect', 'ConnectionController.connect')
   Route.post('/disconnect', 'ConnectionController.disconnect')
 }).prefix('/connections').middleware('auth')
+
+// Message routes
+Route.group(() => {
+  Route.get('/recent', 'MessageController.recent')
+  Route.post('/', 'MessageController.store')
+  Route.get('/:user', 'MessageController.index')
+}).prefix('/messages').middleware('auth')

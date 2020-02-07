@@ -10,7 +10,6 @@ const Hash = use('Hash')
 class User extends Model {
   static boot () {
     super.boot()
-
     /**
      * A hook to hash the user password before saving
      * it to the database.
@@ -67,7 +66,7 @@ class User extends Model {
       .where('type', 'profile')
   }
 
-  getGender({gender}){
+  getGender(gender){
     return gender === 0 ? 'male' : 'female'
   }
 

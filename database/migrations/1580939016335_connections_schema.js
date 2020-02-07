@@ -10,6 +10,7 @@ class ConnectionsSchema extends Schema {
       table.bigInteger('first_user').notNullable().unsigned().references('id').inTable('users')
       table.bigInteger('second_user').notNullable().unsigned().references('id').inTable('users')
       table.boolean('active').notNullable().defaultTo(true)
+      table.timestamp('used_at').nullable()
       table.timestamps()
 
       table.index(['first_user', 'second_user'])

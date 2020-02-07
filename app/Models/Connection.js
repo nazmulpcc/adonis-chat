@@ -4,6 +4,26 @@
 const Model = use('Model')
 
 class Connection extends Model {
+  static get dates () {
+    return super.dates.concat(['used_at'])
+  }
+
+  /**
+   * Trigger a use of the connection
+   * @returns {Promise<Boolean>}
+   */
+  async use(){
+    this.used_at = new Date()
+    return this.save()
+  }
+
+  static async use(first, second){
+    const pair = this.makePair({first, second})
+    return !! await this.query()
+      .where('first_user', pair.first)
+      .where('second_user', pair.second)
+      .update({used_at: new Date()})
+  }
   /**
    * Get the connection between users
    * @param first
@@ -115,8 +135,8 @@ class Connection extends Model {
   static async changeStatus(first, second, active){
     const pair = this.makePair({first, second})
     return !! await this.query()
-      .where('first_user', first)
-      .where('second_user', second)
+      .where('first_user', pair.first)
+      .where('second_user', pair.second)
       .update({active})
   }
 
