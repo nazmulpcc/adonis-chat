@@ -28,6 +28,7 @@
     "@adonisjs/mail": "^3.0.10",
     "@adonisjs/validator": "^5.0.6",
     "@adonisjs/view": "^1.0.9",
+    "@adonisjs/websocket": "^1.0.12",
     "mysql": "^2.18.1"
   },
   "devDependencies": {},
