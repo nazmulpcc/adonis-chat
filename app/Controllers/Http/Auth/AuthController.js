@@ -14,6 +14,8 @@ class AuthController {
     try{
       const data = request.only(['name', 'gender', 'email', 'password'])
       const user = await User.create(data)
+      Image.upload(request.file('profile'), user, 'profile')
+      await user.load('picture')
       return user
     }catch (e) {
       console.log(e)
