@@ -1,6 +1,7 @@
 'use strict'
 
 const User = use('App/Models/User')
+const Image = use('App/Models/Image')
 const { validate } = use('Validator')
 
 class AuthController {
@@ -14,9 +15,13 @@ class AuthController {
     try{
       const data = request.only(['name', 'gender', 'email', 'password'])
       const user = await User.create(data)
-      Image.upload(request.file('profile'), user, 'profile')
+      await Image.upload(request.file('picture'), user, 'picture')
       await user.load('picture')
-      return user
+      return {
+        success: true,
+        message: 'Registration Successful',
+        user: user
+      }
     }catch (e) {
       console.log(e)
       return response

@@ -54,7 +54,8 @@ class VerificationController {
     });
     return {
       success: true,
-      message: 'A new verification email has been sent'
+      message: 'A new verification email has been sent',
+      verification
     }
   }
 }
