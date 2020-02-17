@@ -65,7 +65,7 @@ class MessageController {
 
   async recent({request, response, auth}){
     const page = request.input('page', 1)
-    const limit = request.input('limit', 1)
+    const limit = request.input('limit', 10)
     const cons = await Connection.query()
       .orderBy('used_at', 'DESC')
       .where(function () {

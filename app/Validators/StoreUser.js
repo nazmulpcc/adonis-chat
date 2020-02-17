@@ -6,7 +6,8 @@ class StoreUser {
       name: 'required|max:200',
       email: 'required|email|unique:users,email',
       gender: 'required',
-      password: 'required|min:6'
+      password: 'required|min:6',
+      picture: 'file|file_size:4mb|file_types:image'
     }
   }
 
