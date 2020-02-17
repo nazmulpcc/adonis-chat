@@ -42,7 +42,7 @@ class MessageController {
         throw { message: 'Invalid Data', data: validation.messages() }
       }
       const target = await User.findBy('id', request.input('user_id'))
-      if(!target || !Connection.exists(target, auth.user)){
+      if(!target || ! await Connection.exists(target, auth.user)){
         throw {message: "Invalid Target User", data: []}
       }
       let message
@@ -82,7 +82,10 @@ class MessageController {
         users.push(connection.second_user)
       }
     }
-    cons.data = await User.query().whereIn('id', users).fetch()
+    cons.data = await User.query()
+      .with('picture')
+      .whereIn('id', users)
+      .fetch()
     return cons
   }
 }

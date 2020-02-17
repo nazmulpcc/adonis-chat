@@ -50,7 +50,7 @@ class Connection extends Model {
    * @returns {Promise<boolean>}
    */
   static async exists(first, second, ignoreBlock = false){
-    return !! this.get(first, second, ignoreBlock)
+    return !! await this.get(first, second, ignoreBlock)
   }
 
   /**
@@ -65,7 +65,7 @@ class Connection extends Model {
       return false
     }
     const pair = this.makePair({first, second})
-    const connection = this.get(first, second)
+    const connection = await this.get(first, second)
     if(connection){
       if(! force){
         return false

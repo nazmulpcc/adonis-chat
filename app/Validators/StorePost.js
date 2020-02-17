@@ -9,7 +9,7 @@ class StorePost {
       activity: 'required|max:200',
       people: 'required|integer|min:1',
       plus: 'required|boolean',
-      image: 'file|file_ext:png,jpg|file_size:2mb|file_types:image'
+      image: 'file|file_size:4mb|file_types:image'
     }
   }
   async fails (errorMessages) {

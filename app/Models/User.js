@@ -62,8 +62,9 @@ class User extends Model {
   }
 
   picture(){
-    return this.hasOne('App/Models/Image')
-      .where('type', 'profile')
+    return this.hasOne('App/Models/Image', 'id', 'parent_id')
+      .where('parent_type', this.constructor.name)
+      .where('type', 'picture')
   }
 
   getGender(gender){
