@@ -3,6 +3,7 @@
 const Config = use('Config')
 const Post = use('App/Models/Post')
 const Image = use('App/Models/Image')
+const Connection = use('App/Models/Connection')
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -38,11 +39,20 @@ class PostController {
   async nearby({request, response, auth}){
     const page = request.input('page', 1)
     const limit = request.input('limit', 10)
-    return Post.query()
+    let posts = await Post.query()
       .with('creator')
       .with('images')
+      .where('user_id', '!=', auth.user.id)
       .orderBy('created_at', 'desc')
       .paginate(page, limit)
+    for(let post of posts){
+      if(await Connection.exists(auth.user.id, post.user_id)){
+        post.connected = true
+      }else{
+        post.connected = false
+      }
+    }
+    return posts
   }
 
   /**

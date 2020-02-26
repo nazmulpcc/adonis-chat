@@ -48,6 +48,7 @@ class AuthController {
       }
       const token = await auth.withRefreshToken().attempt(email, password)
       token.success = true
+      token.user = {name: user.name, id: user.id}
       return token
     }catch (e) {
       return response.status(400).send({
