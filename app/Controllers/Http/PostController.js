@@ -39,14 +39,16 @@ class PostController {
   async nearby({request, response, auth}){
     const page = request.input('page', 1)
     const limit = request.input('limit', 10)
+
     let posts = await Post.query()
       .with('creator')
       .with('images')
       .where('user_id', '!=', auth.user.id)
       .orderBy('created_at', 'desc')
       .paginate(page, limit)
-    for(let post of posts){
-      if(await Connection.exists(auth.user.id, post.user_id)){
+      .then((r) => r.toJSON())
+    for(let post of posts.data){
+      if(await Connection.exists(auth.user.id, post.creator.id)){
         post.connected = true
       }else{
         post.connected = false

@@ -76,6 +76,7 @@ class Connection extends Model {
     return Connection.create({
       first_user: pair.first,
       second_user: pair.second,
+      used_at: new Date(),
       active: true
     })
   }
