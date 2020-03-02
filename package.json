@@ -29,6 +29,7 @@
     "@adonisjs/validator": "^5.0.6",
     "@adonisjs/view": "^1.0.9",
     "@adonisjs/websocket": "^1.0.12",
+    "firebase-admin": "^8.9.2",
     "mysql": "^2.18.1"
   },
   "devDependencies": {},
