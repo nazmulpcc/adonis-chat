@@ -35,3 +35,8 @@ Route.group(() => {
   Route.post('/', 'MessageController.store')
   Route.get('/:user', 'MessageController.index')
 }).prefix('/messages').middleware('auth')
+
+// user routes
+Route.group(() => {
+  Route.post('/fcm', 'UserController.updateFcmToken')
+}).prefix('/user').middleware('auth')

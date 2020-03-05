@@ -10,3 +10,5 @@ tmp
 # The development sqlite file
 database/*.sqlite
 .idea
+
+google-service-account.json
