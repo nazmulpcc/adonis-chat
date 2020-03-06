@@ -18,7 +18,7 @@ class FirebaseProvider extends ServiceProvider {
     this.app.singleton('FCM', () => {
       const serviceAccount = require(Helpers.appRoot('google-service-account.json'));
       FireBase.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
+        credential: FireBase.credential.cert(serviceAccount),
         databaseURL: "https://linkup-2020.firebaseio.com"
       });
       return FireBase
