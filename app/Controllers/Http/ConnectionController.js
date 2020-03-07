@@ -1,5 +1,7 @@
 'use strict'
 
+const Config = use('Config')
+const Notification = use('App/Notifications/Notification')
 const Validator = use('Validator')
 const User = use('App/Models/User')
 const Connection = use('App/Models/Connection')
@@ -19,6 +21,11 @@ class ConnectionController {
         throw {message: "Invalid Target User", data: []}
       }
       if(await Connection.exists(auth.user, target) || await Connection.make(auth.user, target, true)){
+        let appName = Config.get('app.name')
+        let notification = new Notification("You have a new Connection!", `${target.name} has connected with you on ${appName}`);
+        target.fcm_token && await notification
+          .tokens([target.fcm_token])
+          .send()
         return {
           success: true,
           message: `You are now connected with ${target.name}`

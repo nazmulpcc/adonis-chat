@@ -1,6 +1,8 @@
 'use strict'
 
 const DB = use('Database')
+const Config = use('Config')
+const Notification = use('App/Notifications/Notification')
 const Validator = use('Validator')
 const User = use('App/Models/User')
 const Message = use('App/Models/Message')
@@ -47,9 +49,14 @@ class MessageController {
       }
       let message
       if(message = await Message.send(auth.user, target, request.input('message'))){
+        let appName = Config.get('app.name')
+        let notification = new Notification("You have a new Message", `${target.name} has sent you a message on ${appName}`)
+        target.fcm_token && await notification
+          .tokens([target.fcm_token])
+          .send()
         return {
           success: true,
-          message: 'Message Send',
+          message: 'Message Sent',
           data: message
         }
       }

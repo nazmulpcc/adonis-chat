@@ -29,11 +29,13 @@ class Message extends Model {
     })
   }
   static async send(sender, receiver, message){
-    return this.create({
+    let m = this.create({
       sender_id: sender.id || sender,
       receiver_id: receiver.id || sender,
       body: message
     })
+    await Connection.use(m.sender_id, m.receiver_id)
+    return m
   }
   sender(){
     return this.belongsTo('App/Models/User')
