@@ -29,7 +29,7 @@ class Message extends Model {
     })
   }
   static async send(sender, receiver, message){
-    let m = this.create({
+    let m = await this.create({
       sender_id: sender.id || sender,
       receiver_id: receiver.id || sender,
       body: message
