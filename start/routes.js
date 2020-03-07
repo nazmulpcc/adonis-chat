@@ -2,7 +2,7 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
-
+Route.get("/", "MessageController.home")
 // Auth routes
 Route.group(() => {
   Route.post('/register', 'Auth/AuthController.register').validator('StoreUser').as('register')

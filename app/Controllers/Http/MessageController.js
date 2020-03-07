@@ -9,6 +9,9 @@ const Message = use('App/Models/Message')
 const Connection = use('App/Models/Connection')
 
 class MessageController {
+  async home(context){
+    return "home"
+  }
   async index({request, response, auth}){
     try{
       const target = await User.find(request.params.user)
