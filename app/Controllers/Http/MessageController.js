@@ -85,11 +85,17 @@ class MessageController {
       .paginate(page, limit)
       .then((r) => r.toJSON())
     const users = []
+    const unread = []
+    let last
     for (const connection of cons.data){
       if(connection.first_user !== auth.user.id){
-        users.push(connection.first_user)
+        last = connection.first_user
       }else{
-        users.push(connection.second_user)
+        last = connection.second_user
+      }
+      users.push(last)
+      if(connection.waiting_for === auth.user.id){
+        unread.push(last)
       }
     }
     let userData = await User.query()
@@ -99,9 +105,9 @@ class MessageController {
       .then(r => r.toJSON())
     let data = []
     for(let userId of users){
-      data.push(
-        userData.find(u => u.id === userId)
-      )
+      let user = userData.find(u => u.id === userId)
+      user.unread = !!unread.find(uid => uid === user.id)
+      data.push(user)
     }
     cons.data = data
     return cons

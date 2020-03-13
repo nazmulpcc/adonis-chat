@@ -25,7 +25,7 @@ class Message extends Model {
       message.uuid = uuid()
     })
     this.addHook("afterCreate", async (message) => {
-      await Connection.use(message.sender_id, message.receiver_id)
+      await Connection.use(message.sender_id, message.receiver_id, message.receiver_id)
     })
   }
   static async send(sender, receiver, message){
@@ -34,7 +34,6 @@ class Message extends Model {
       receiver_id: receiver.id || sender,
       body: message
     })
-    await Connection.use(m.sender_id, m.receiver_id)
     return m
   }
   sender(){

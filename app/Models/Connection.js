@@ -12,17 +12,21 @@ class Connection extends Model {
    * Trigger a use of the connection
    * @returns {Promise<Boolean>}
    */
-  async use(){
+  async use(wait_for){
     this.used_at = new Date()
+    this.waiting_for = wait_for
     return this.save()
   }
 
-  static async use(first, second){
+  static async use(first, second, wait_for = second){
     const pair = this.makePair({first, second})
     return !! await this.query()
       .where('first_user', pair.first)
       .where('second_user', pair.second)
-      .update({used_at: new Date()})
+      .update({
+        used_at: new Date(),
+        waiting_for: wait_for
+      })
   }
   /**
    * Get the connection between users
