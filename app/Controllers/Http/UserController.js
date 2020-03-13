@@ -1,6 +1,7 @@
 'use strict'
 
 const User = use('App/Models/User')
+const Image = use('App/Models/Image')
 
 class UserController {
   /**
@@ -19,6 +20,24 @@ class UserController {
     return {
       success,
       message: "Token has been updated"
+    }
+  }
+
+  async update({auth, request}){
+    const data = request.only(['name'])
+    const updated = User.query()
+      .where('id', auth.user.id)
+      .update(data)
+    await auth.user.load('picture')
+    let picture = auth.user.getRelated('picture')
+    if(! picture){
+      await Image.upload(request.file('picture'), auth.user, 'picture')
+    }else{
+      await picture.update(request.file('picture'))
+    }
+    return {
+      success: true,
+      message: "Profile Updated"
     }
   }
 }

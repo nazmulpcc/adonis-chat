@@ -39,4 +39,5 @@ Route.group(() => {
 // user routes
 Route.group(() => {
   Route.post('/fcm', 'UserController.updateFcmToken')
+  Route.post('/profile', 'UserController.update')
 }).prefix('/user').middleware('auth')

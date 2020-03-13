@@ -5,8 +5,16 @@ const Model = use('Model')
 const Helpers = use('Helpers')
 const Crpto = require("crypto")
 const Config = use('Config')
+const fs = require('fs')
 
 class Image extends Model {
+  static boot(){
+    super.boot()
+    this.addHook('beforeDelete', async (image) => {
+      await fs.unlink(image.path(), () => {})
+    })
+  }
+
   static get computed () {
     return ['url']
   }
@@ -34,6 +42,22 @@ class Image extends Model {
       type: type,
       name: filename
     });
+  }
+
+  async update(file, filename = null){
+    filename = filename || Crpto.randomBytes(20).toString('hex')
+    filename = `${filename}.${file.extname}`
+    await fs.unlink(this.path(), () => {})
+    await file.move(Helpers.publicPath('uploads/' + this.parent_type), {
+      name: filename,
+      overwrite: true
+    })
+    this.name = filename
+    return this.save()
+  }
+
+  path(){
+    return Helpers.publicPath(`uploads/${this.parent_type}/${this.name}`)
   }
 
   getUrl({name, parent_type}){
