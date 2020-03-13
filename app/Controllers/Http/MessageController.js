@@ -92,10 +92,18 @@ class MessageController {
         users.push(connection.second_user)
       }
     }
-    cons.data = await User.query()
+    let userData = await User.query()
       .with('picture')
       .whereIn('id', users)
       .fetch()
+      .then(r => r.toJSON())
+    let data = []
+    for(let userId of users){
+      data.push(
+        userData.find(u => u.id === userId)
+      )
+    }
+    cons.data = data
     return cons
   }
 }
