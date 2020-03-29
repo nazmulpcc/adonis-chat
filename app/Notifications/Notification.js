@@ -59,6 +59,15 @@ class Notification {
   }
 
   /**
+   * Add properties in the generic payload
+   * @param data
+   */
+  add(data = {}){
+    this.payload = Object.assign(this.payload || {}, data)
+    return this
+  }
+
+  /**
    * Set the device tokens to which the notifications will be sent
    * @param tokens
    */

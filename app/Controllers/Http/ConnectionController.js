@@ -25,6 +25,10 @@ class ConnectionController {
         let notification = new Notification("You have a new Connection!", `${target.name} has connected with you on ${appName}`);
         target.fcm_token && await notification
           .tokens([target.fcm_token])
+          .add({
+            event: 'connection',
+            user_id: target.id
+          })
           .send()
         return {
           success: true,
