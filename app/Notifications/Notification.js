@@ -8,16 +8,6 @@ class Notification {
    * @type {boolean}
    */
   asData = false
-  /**
-   * Title of the notification
-   * @type {string}
-   */
-  title = ""
-  /**
-   * Body of the notification
-   * @type {string}
-   */
-  body = ""
 
   /**
    * False if the props are to be auto generated
@@ -30,12 +20,14 @@ class Notification {
    * @param title
    * @param body
    */
-  constructor(title = "", body = "") {
+  constructor(title = "", body = "", asData = false) {
+    this.asData = asData
     if(title instanceof Object){
       this.payload = title
     }else{
-      this.title = title
-      this.body = body
+      this.payload = {
+        title, body
+      }
     }
   }
 
@@ -91,16 +83,13 @@ class Notification {
    */
   buildPayload(){
     let payload = {...this.payload}
-    let data = {
-      title: this.title,
-      body: this.body
-    }
+    let request = {}
     let as = this.asData ? 'data' : 'notification'
-    payload[as] = Object.assign(payload[as] || {}, data)
-    // payload.tokens = [...(payload.tokens || []), ...this.deviceTokens]
-    payload.token = this.deviceTokens[0]
-    // payload.click_action = 'FLUTTER_NOTIFICATION_CLICK'
-    return payload
+    request[as] = payload
+    // request.tokens = [...(request.tokens || []), ...this.deviceTokens]
+    request.token = this.deviceTokens[0]
+    // request.click_action = 'FLUTTER_NOTIFICATION_CLICK'
+    return request
   }
 }
 
