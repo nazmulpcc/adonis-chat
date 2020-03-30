@@ -61,10 +61,8 @@ class MessageController {
         let notification = new Notification("You have a new Message", `${target.name} has sent you a message on ${appName}`)
         target.fcm_token && await notification
           .tokens([target.fcm_token])
-          .add({
-            event: 'message',
-            user_id: target.id
-          })
+          .add('event', 'message')
+          .add('user_id', target.id)
           .send()
         return {
           success: true,

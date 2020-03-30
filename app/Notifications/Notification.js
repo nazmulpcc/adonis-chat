@@ -62,8 +62,8 @@ class Notification {
    * Add properties in the generic payload
    * @param data
    */
-  add(data = {}){
-    this.payload = Object.assign(this.payload || {}, data)
+  add(key, value){
+    this.payload[key] = value
     return this
   }
 
