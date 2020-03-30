@@ -75,7 +75,7 @@ class MessageController {
       return response.status(400).send({
         success: false,
         message: e.message,
-        data: e.data
+        data: e
       })
     }
   }
