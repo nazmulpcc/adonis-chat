@@ -63,7 +63,7 @@ class MessageController {
           .tokens([target.fcm_token])
           .data({
             event : 'message',
-            user_id: target.id
+            user_id: String(target.id)
           })
           .send()
         return {

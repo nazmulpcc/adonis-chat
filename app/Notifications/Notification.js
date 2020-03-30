@@ -8,6 +8,16 @@ class Notification {
    * @type {boolean}
    */
   asData = false
+  /**
+   * Title of the notification
+   * @type {string}
+   */
+  title = ""
+  /**
+   * Body of the notification
+   * @type {string}
+   */
+  body = ""
 
   /**
    * False if the props are to be auto generated
@@ -20,14 +30,12 @@ class Notification {
    * @param title
    * @param body
    */
-  constructor(title = "", body = "", asData = false) {
-    this.asData = asData
+  constructor(title = "", body = "") {
     if(title instanceof Object){
       this.payload = title
     }else{
-      this.payload = {
-        title, body
-      }
+      this.title = title
+      this.body = body
     }
   }
 
@@ -54,8 +62,8 @@ class Notification {
    * Add properties in the generic payload
    * @param data
    */
-  add(key, value){
-    this.payload[key] = value
+  add(data = {}){
+    this.payload = Object.assign(this.payload || {}, data)
     return this
   }
 
@@ -94,7 +102,6 @@ class Notification {
     // payload.click_action = 'FLUTTER_NOTIFICATION_CLICK'
     return payload
   }
-
 }
 
 module.exports = Notification

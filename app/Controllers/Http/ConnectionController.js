@@ -27,7 +27,7 @@ class ConnectionController {
           .tokens([target.fcm_token])
           .data({
             event : 'connection',
-            user_id: target.id
+            user_id: String(target.id)
           })
           .send()
         return {
