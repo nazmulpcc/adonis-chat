@@ -83,14 +83,18 @@ class Notification {
    */
   buildPayload(){
     let payload = {...this.payload}
-    let request = {}
+    let data = {
+      title: this.title,
+      body: this.body
+    }
     let as = this.asData ? 'data' : 'notification'
-    request[as] = payload
-    // request.tokens = [...(request.tokens || []), ...this.deviceTokens]
-    request.token = this.deviceTokens[0]
-    // request.click_action = 'FLUTTER_NOTIFICATION_CLICK'
-    return request
+    payload[as] = Object.assign(payload[as] || {}, data)
+    // payload.tokens = [...(payload.tokens || []), ...this.deviceTokens]
+    payload.token = this.deviceTokens[0]
+    // payload.click_action = 'FLUTTER_NOTIFICATION_CLICK'
+    return payload
   }
+
 }
 
 module.exports = Notification
