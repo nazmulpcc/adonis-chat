@@ -20,6 +20,11 @@ class MessageController {
       }
       const page = request.input('page', 1)
       const limit = request.input('page', 10)
+      let connection = Connection.use(auth.user.id, target.id, true)
+      if(connection.waiting_for == auth.user.id){
+        connection.waiting_for = null
+        await connection.save()
+      }
       return Message.query()
         .where(function () {
           this.where('sender_id', auth.user.id).where('receiver_id', target.id)

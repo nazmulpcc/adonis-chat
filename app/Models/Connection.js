@@ -12,7 +12,7 @@ class Connection extends Model {
    * Trigger a use of the connection
    * @returns {Promise<Boolean>}
    */
-  async use(wait_for){
+  async use(wait_for = null){
     this.used_at = new Date()
     this.waiting_for = wait_for
     return this.save()
