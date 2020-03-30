@@ -69,12 +69,13 @@ class Connection extends Model {
       return false
     }
     const pair = this.makePair({first, second})
-    const connection = await this.get(first, second)
+    const connection = await this.get(first, second, true)
     if(connection){
       if(! force){
         return false
       }
-      await connection.update({active: true})
+      connection.active = true
+      await connection.save()
       return connection
     }
     return Connection.create({
